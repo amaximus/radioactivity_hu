@@ -1,0 +1,7 @@
+{
+  "name": "Radioactivity HU",
+  "country": ["HU"],
+  "domains": ["radioactivity_hu"],
+  "render_readme": "true",
+  "iot_class": ["Cloud Polling"]
+}
