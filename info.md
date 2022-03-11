@@ -23,7 +23,7 @@ Define sensor with the following configuration parameters:<br />
 | station | **Y** | `Budapest XI. ker. (Őrezred)` | name of the measuring station (see below) |
 ---
 
-Measuring station names should match the 'Állomás' specified at
+Measuring station name should match the 'Állomás' specified at
 [Háttérsugárzás - Aktuális adatsor](https://www.katasztrofavedelem.hu/modules/hattersugarzas/aktualis_adatsor)
 
 Example of radioactivity information:
