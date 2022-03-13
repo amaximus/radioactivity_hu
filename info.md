@@ -28,7 +28,7 @@ Measuring station name should match the 'Állomás' specified at
 
 Example of radioactivity information:
 
-![Radioactivity  attributes](https://raw.githubusercontent.com/amaximus/radioactivity_hu/main/radioactivity_hu.png)
+![Radioactivity attributes](https://raw.githubusercontent.com/amaximus/radioactivity_hu/main/radioactivity_hu.png)
 
 ## Examples
 ```
@@ -51,19 +51,19 @@ styles:
   card:
     - height: 80px
   icon:
-    - color:
+    - color: >
         [[[
           var r_val = states['sensor.radioactivity_hu'].state;
-          if ( r_val > 500  ) {
+          if ( r_val > 500 ) {
             return "red";
           } else if ( r_val > 250 ) {
-            return "orange";
-          } 
-          return "green";
+            return "var(--paper-item-icon-active-color)";
+          }
+          return "var(--paper-item-icon-color)";
         ]]]
-layout: icon_label
-label: Radioactivity
+label: radioaktivitás
 ```
+![Radioactivity button](https://raw.githubusercontent.com/amaximus/radioactivity_hu/main/ha_radioactivity.png)
 
 ## Thanks
 
