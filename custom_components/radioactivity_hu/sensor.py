@@ -78,6 +78,7 @@ class RadioactivityHUSensor(Entity):
                     self._attr["provider"] = CONF_ATTRIBUTION
                     self._attr["last_measurement_time"] = i["lastMeasurementTime"]
                     self._attr["unit_of_measurement"] = "nSv/h"
+                    break
 
         _LOGGER.debug(self._state)
         _LOGGER.debug(self._attr)
