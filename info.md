@@ -11,7 +11,7 @@ Háttérsugárzás - Aktuális adatsor](https://www.katasztrofavedelem.hu/module
 
 #### Installation
 The easiest way to install it is through [HACS (Home Assistant Community Store)](https://github.com/hacs/integration),
-search for <i>Radioactivity HU</i> in the Integrations.<br />
+search for <i>Radioactivity Hungary</i> in the Integrations.<br />
 
 #### Configuration:
 Define sensor with the following configuration parameters:<br />
