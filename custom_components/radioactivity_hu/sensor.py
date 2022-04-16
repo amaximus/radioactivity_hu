@@ -20,7 +20,7 @@ CONF_NAME = 'name'
 CONF_STATION = 'station'
 
 DEFAULT_NAME = 'Radioactivity HU'
-DEFAULT_STATION = 'Budapest XI. ker. (Őrezred)'
+DEFAULT_STATION = ''
 DEFAULT_ICON = 'mdi:radioactive'
 
 SCAN_INTERVAL = timedelta(minutes=30)
@@ -69,16 +69,31 @@ class RadioactivityHUSensor(Entity):
     @asyncio.coroutine
     async def async_update(self):
         wqdata = await async_get_wqdata(self)
+        max_state = 0
+        max_station = ''
+        max_lasttime = ''
+
+        self._attr["provider"] = CONF_ATTRIBUTION
+        self._attr["unit_of_measurement"] = "nSv/h"
 
         if 'errorMessage' in wqdata and wqdata["errorMessage"] == "OK":
             self._wqdata = wqdata
             for i in wqdata["data"]:
-                if i["location"] == self._station:
-                    self._state = str(int(float(i["lastMeasurement"])))
-                    self._attr["provider"] = CONF_ATTRIBUTION
-                    self._attr["last_measurement_time"] = i["lastMeasurementTime"]
-                    self._attr["unit_of_measurement"] = "nSv/h"
-                    break
+                if len(self._station) != 0:
+                    if i["location"] == self._station:
+                        self._state = str(int(float(i["lastMeasurement"])))
+                        self._attr["last_measurement_time"] = i["lastMeasurementTime"]
+                        self._attr["station"] = self._station
+                        break
+                else:
+                   if i["lastMeasurement"] != None and float(i["lastMeasurement"]) > max_state:
+                       max_state = float(i["lastMeasurement"])
+                       max_station = i["location"]
+                       max_lasttime = i["lastMeasurementTime"]
+            if len(self._station) == 0:
+                self._state = str(int(max_state))
+                self._attr["station"] = max_station
+                self._attr["last_measurement_time"] = max_lasttime
 
         _LOGGER.debug(self._state)
         _LOGGER.debug(self._attr)
