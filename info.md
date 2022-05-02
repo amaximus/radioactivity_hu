@@ -4,7 +4,7 @@
 
 # Home Assistant custom integration for Radioactivity data for Hungary
 
-This custom component integrates radioactivity information provided by Disaster Recovery Directorate (Katasztrofavédelem).
+This custom component integrates radioactivity information provided by Disaster Recovery Directorate (Katasztrófavédelem).
 
 The state of the sensor will be the level of the environmental radioactivity. Thresholds are defined on the bottom of the page [
 Háttérsugárzás - Aktuális adatsor](https://www.katasztrofavedelem.hu/modules/hattersugarzas/aktualis_adatsor)
@@ -20,11 +20,13 @@ Define sensor with the following configuration parameters:<br />
 | Name | Optional | `Default` | Description |
 | :---- | :---- | :------- | :----------- |
 | name | **Y** | `radioactivity_hu` | name of the sensor |
-| station | **Y** | `Budapest XI. ker. (Őrezred)` | name of the measuring station (see below) |
+| station | **Y** | `` | name of the measuring station (see below) |
 ---
 
 Measuring station name should match the 'Állomás' specified at
-[Háttérsugárzás - Aktuális adatsor](https://www.katasztrofavedelem.hu/modules/hattersugarzas/aktualis_adatsor)
+[Háttérsugárzás - Aktuális adatsor](https://www.katasztrofavedelem.hu/modules/hattersugarzas/aktualis_adatsor).
+When not set the component will scan all stations and the state of the sensor will be the highest level of measurement.
+The attributes (station, last_measurement_time) will be set as per the station with the highest level of measurement.
 
 Example of radioactivity information:
 

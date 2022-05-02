@@ -4,6 +4,7 @@ import logging
 import voluptuous as vol
 import aiohttp
 from datetime import timedelta
+from datetime import datetime
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -24,6 +25,7 @@ DEFAULT_STATION = ''
 DEFAULT_ICON = 'mdi:radioactive'
 
 SCAN_INTERVAL = timedelta(minutes=30)
+TWO_DAYS = 172800 # secs
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -78,15 +80,29 @@ class RadioactivityHUSensor(Entity):
 
         if 'errorMessage' in wqdata and wqdata["errorMessage"] == "OK":
             self._wqdata = wqdata
+
+            today = datetime.now()
+
             for i in wqdata["data"]:
                 if len(self._station) != 0:
                     if i["location"] == self._station:
                         self._state = str(int(float(i["lastMeasurement"])))
                         self._attr["last_measurement_time"] = i["lastMeasurementTime"]
                         self._attr["station"] = self._station
+                        self._attr["active"] = i["active"]
                         break
                 else:
-                   if i["lastMeasurement"] != None and float(i["lastMeasurement"]) > max_state:
+                   if i["lastMeasurement"] == None or i["active"] == None:
+                       continue
+                   if i["active"] == "false":
+                       continue
+
+                   if i["lastMeasurementTime"] != None:
+                       tstamp = datetime.strptime(i["lastMeasurementTime"],"%Y-%m-%d %H:%M:%S").date()
+                       if int(datetime.now().strftime('%s')) - int(tstamp.strftime('%s')) > TWO_DAYS:
+                           continue
+
+                   if float(i["lastMeasurement"]) > max_state:
                        max_state = float(i["lastMeasurement"])
                        max_station = i["location"]
                        max_lasttime = i["lastMeasurementTime"]
@@ -94,6 +110,7 @@ class RadioactivityHUSensor(Entity):
                 self._state = str(int(max_state))
                 self._attr["station"] = max_station
                 self._attr["last_measurement_time"] = max_lasttime
+                self._attr["active"] = "true"
 
         _LOGGER.debug(self._state)
         _LOGGER.debug(self._attr)

@@ -25,7 +25,8 @@ Define sensor with the following configuration parameters:<br />
 
 Measuring station name should match the 'Állomás' specified at
 [Háttérsugárzás - Aktuális adatsor](https://www.katasztrofavedelem.hu/modules/hattersugarzas/aktualis_adatsor).
-When not set the component will scan all stations and the state of the sensor will be the highest level of measurement.
+When not set the component will scan all active stations with measurement data not older than two days and
+the state of the sensor will be the highest level of measurement from this set of stations.
 The attributes (station, last_measurement_time) will be set as per the station with the highest level of measurement.
 
 Example of radioactivity information:
