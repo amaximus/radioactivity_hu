@@ -127,3 +127,7 @@ class RadioactivityHUSensor(Entity):
     @property
     def icon(self):
         return DEFAULT_ICON
+
+    @property
+    def unique_id(self):
+        return self._name + "_" + self._station
