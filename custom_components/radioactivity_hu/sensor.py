@@ -86,10 +86,15 @@ class RadioactivityHUSensor(Entity):
             for i in wqdata["data"]:
                 if len(self._station) != 0:
                     if i["location"] == self._station:
-                        self._state = str(int(float(i["lastMeasurement"])))
-                        self._attr["last_measurement_time"] = i["lastMeasurementTime"]
+                        if i["active"] is not None:
+                            self._attr["active"] = i["active"]
+                        if i["lastMeasurement"] is not None:
+                            self._state = str(int(float(i["lastMeasurement"])))
+                        else:
+                            self._attr["active"] = "false"
+                        if i["lastMeasurementTime"] is not None:
+                            self._attr["last_measurement_time"] = i["lastMeasurementTime"]
                         self._attr["station"] = self._station
-                        self._attr["active"] = i["active"]
                         break
                 else:
                    if i["lastMeasurement"] == None or i["active"] == None:
@@ -112,8 +117,6 @@ class RadioactivityHUSensor(Entity):
                 self._attr["last_measurement_time"] = max_lasttime
                 self._attr["active"] = "true"
 
-        _LOGGER.debug(self._state)
-        _LOGGER.debug(self._attr)
         return self._state
 
     @property
