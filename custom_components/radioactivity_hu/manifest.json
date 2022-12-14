@@ -3,7 +3,7 @@
   "name": "Radioactivity Hungary",
   "documentation": "https://github.com/amaximus/radioactivity_hu",
   "issue_tracker": "https://github.com/amaximus/radioactivity_hu/issues",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "dependencies": [],
   "codeowners": ["@amaximus"],
   "iot_class": "cloud_polling",
