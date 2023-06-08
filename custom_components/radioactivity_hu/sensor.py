@@ -1,4 +1,3 @@
-import asyncio
 import json
 import logging
 import voluptuous as vol
@@ -32,8 +31,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_STATION, default=DEFAULT_STATION): cv.string,
 })
 
-@asyncio.coroutine
-def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
+async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     name = config.get(CONF_NAME)
     station = config.get(CONF_STATION)
 
@@ -68,7 +66,6 @@ class RadioactivityHUSensor(Entity):
 
         return self._attr
 
-    @asyncio.coroutine
     async def async_update(self):
         wqdata = await async_get_wqdata(self)
         max_state = 0
